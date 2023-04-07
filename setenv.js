@@ -8,7 +8,7 @@ require('dotenv').config();
 
 // Define the environment variables to pass to the React app
 const envVars = {
-  REACT_APP_API_URL: JSON.stringify(process.env.REACT_APP_API_URL),
+  REACT_APP_API_URL: process.env.REACT_APP_API_URL,
   // add other environment variables here as needed
 };
 
@@ -21,10 +21,14 @@ app.use((req, res, next) => {
 // Serve the built React app from the "build" directory
 app.use(express.static(path.join(__dirname, 'build')));
 
-// Define a route that returns the environment variables
 app.get('/api/env', (req, res) => {
-    console.log(envVars);
-    res.json(envVars);
+  console.log(envVars);
+  res.json(envVars);
+});
+
+// Send the index.html file for any other route
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 // Start the server and listen on port 5000
