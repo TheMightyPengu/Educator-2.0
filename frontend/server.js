@@ -2,9 +2,13 @@ const path = require('path');
 const express = require('express');
 
 // Load environment variables from a file
-require('dotenv').config();
+// 
 
-
+if (!process.env.REACT_APP_API_URL) {
+  // Load environment variables from the .env file
+  console.log("No env vars found, loading from .env file")
+  require('dotenv').config();
+}
 
 // Define the environment variables to pass to the React app
 const envVars = {
