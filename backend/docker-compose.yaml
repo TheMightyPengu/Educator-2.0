@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  app:
+    image: thankarezos/asp.net
+    container_name: ADOPSE-bakend
+    ports:
+      - "7014:7014"
+    environment:
+      - ALLOWED_ORIGIN=http://localhost:5000
+      - ASPNETCORE_URLS=http://0.0.0.0:7014
+    volumes:
+      - ./publish:/App

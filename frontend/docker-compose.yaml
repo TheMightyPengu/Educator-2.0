@@ -7,6 +7,6 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - REACT_APP_API_URL=https://localhost:7014
+      - REACT_APP_API_URL=http://localhost:7014
     volumes:
       - ./build:/usr/src/app/build
