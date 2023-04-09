@@ -11,22 +11,43 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - REACT_APP_API_URL=http://172.20.0.3:7014
+      REACT_APP_API_URL: http://172.20.0.3:7014
     volumes:
-      - ./frontend/build:/usr/src/app/build
+      - ./deployment/wwwroot:/usr/src/app/build
 
   backend:
     image: thankarezos/asp.net
-    container_name: ADOPSE-bakend
+    container_name: ADOPSE-backend
     networks:
       adopse_net:
         ipv4_address: 172.20.0.3
     ports:
       - "7014:7014"
     environment:
-      - ASPNETCORE_URLS=http://172.20.0.3:7014
+      ASPNETCORE_URLS: http://172.20.0.3:7014
+      DB_NAME: ADOPSE
+      DB_HOST: 172.20.0.4
     volumes:
-      - ./backend/publish:/App
+      - ./deployment/server:/App
+    depends_on:
+      mysql:
+        condition: service_healthy
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    networks:
+      adopse_net:
+        ipv4_address: 172.20.0.4
+    # restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 10s
+      retries: 3
 networks:
   adopse_net:
     driver: bridge
