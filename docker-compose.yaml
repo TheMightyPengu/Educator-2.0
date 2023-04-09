@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+
+  frontend:
+    image: thankarezos/node-web-app
+    container_name: ADOPSE-frontend
+    networks:
+      adopse_net:
+        ipv4_address: 172.20.0.2
+    ports:
+      - "5000:5000"
+    environment:
+      - REACT_APP_API_URL=http://172.20.0.3:7014
+    volumes:
+      - ./frontend/build:/usr/src/app/build
+
+  backend:
+    image: thankarezos/asp.net
+    container_name: ADOPSE-bakend
+    networks:
+      adopse_net:
+        ipv4_address: 172.20.0.3
+    ports:
+      - "7014:7014"
+    environment:
+      - ASPNETCORE_URLS=http://172.20.0.3:7014
+    volumes:
+      - ./backend/publish:/App
+networks:
+  adopse_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

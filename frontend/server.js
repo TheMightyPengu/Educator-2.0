@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
 // Load environment variables from a file
 // 
@@ -25,10 +26,20 @@ app.use((req, res, next) => {
 // Serve the built React app from the "build" directory
 app.use(express.static(path.join(__dirname, 'build')));
 
-app.get('/api/env', (req, res) => {
-  console.log(envVars);
-  res.json(envVars);
+
+const apiProxy = createProxyMiddleware('/api', {
+  target: process.env.REACT_APP_API_URL,
+  changeOrigin: true,
+  pathRewrite: {
+    '^/api': '',
+  },
+  logLevel: 'debug'
 });
+
+
+
+app.use('/api', apiProxy);
+
 
 // Send the index.html file for any other route
 app.get('*', (req, res) => {
