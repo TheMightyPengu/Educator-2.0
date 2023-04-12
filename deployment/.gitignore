@@ -1,3 +1,4 @@
+copy.sh
 server
-wwwroot
 sqlData
+wwwroot/
