@@ -8,6 +8,7 @@ services:
     networks:
       adopse_net:
         ipv4_address: 172.20.0.2
+    restart: unless-stopped
     ports:
       - "5000:5000"
     environment:
@@ -21,6 +22,7 @@ services:
     networks:
       adopse_net:
         ipv4_address: 172.20.0.3
+    restart: unless-stopped
     ports:
       - "7014:7014"
     environment:
@@ -38,7 +40,7 @@ services:
     networks:
       adopse_net:
         ipv4_address: 172.20.0.4
-    # restart: unless-stopped
+    restart: unless-stopped
     ports:
       - "3306:3306"
     environment:
@@ -56,9 +58,9 @@ services:
     networks:
       adopse_net:
         ipv4_address: 172.20.0.5
-    # restart: unless-stopped
+    restart: unless-stopped
     ports:
-      - "3333:3333"
+      - "3333:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
     volumes:
