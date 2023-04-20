@@ -50,6 +50,19 @@ services:
       interval: 5s
       timeout: 10s
       retries: 3
+  mysqldev:
+    image: mysql:8
+    container_name: mysqlDev
+    networks:
+      adopse_net:
+        ipv4_address: 172.20.0.5
+    # restart: unless-stopped
+    ports:
+      - "3333:3333"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./deployment/sqlDataDev:/var/lib/mysql
 networks:
   adopse_net:
     driver: bridge
