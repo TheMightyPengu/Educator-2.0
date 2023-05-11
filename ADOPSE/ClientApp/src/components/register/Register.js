@@ -14,7 +14,7 @@ function Register(props) {
   const success = () => {
     messageApi.open({
       type: 'success',
-      content: 'This is a success message',
+      content: 'User create successfully',
       style: {
         marginTop: '60px',
       },
